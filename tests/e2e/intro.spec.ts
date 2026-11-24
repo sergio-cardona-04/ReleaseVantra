@@ -4,12 +4,10 @@ test('el frontend consulta la API real a través del proxy de Vite', async ({ pa
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   const healthRequest = page.waitForResponse('**/api/health');
-  await page.goto('/');
+  await page.goto('/app/settings');
 
-  await expect(page).toHaveTitle('ReleaseVantra | Entorno de desarrollo');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Entorno de desarrollo preparado.',
-  );
+  await expect(page).toHaveTitle('ReleaseVantra | Configuración');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Configuración');
   await expect(page.getByRole('status')).toHaveText('API conectada');
   const health = await healthRequest;
   expect(health.status()).toBe(200);
@@ -24,7 +22,7 @@ test('el frontend consulta la API real a través del proxy de Vite', async ({ pa
 
 test('muestra el fallo de API y permite recuperar la conexión', async ({ page }) => {
   await page.route('**/api/health', (route) => route.fulfill({ status: 503, body: '{}' }));
-  await page.goto('/');
+  await page.goto('/app/settings');
   await expect(page.getByRole('status')).toHaveText('No se pudo conectar con la API');
   await page.unroute('**/api/health');
   await page.getByRole('button', { name: 'Reintentar conexión' }).click();
@@ -39,6 +37,6 @@ test('una respuesta inválida no se presenta como conexión correcta', async ({ 
       body: JSON.stringify({ status: 'unexpected' }),
     }),
   );
-  await page.goto('/');
+  await page.goto('/app/settings');
   await expect(page.getByRole('status')).toHaveText('No se pudo conectar con la API');
 });

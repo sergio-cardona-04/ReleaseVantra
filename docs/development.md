@@ -31,6 +31,12 @@ Si 3000 o 5173 están ocupados, identifica y detén tu proceso o configura otros
 
 ## Pruebas y errores
 
+- A2 organiza la presentación en `apps/web/src/pages`, `layouts`, `components`, `hooks` y `mocks`. Los componentes animados están limitados al hero y se cargan de forma diferida. Consulta [la arquitectura visual A2](fase_a2/implementation.md).
+- `components.json` define los alias y convenciones shadcn/ui. Las primitivas accesibles de Radix se comparten mediante componentes locales; los tokens semánticos se centralizan en `styles.css`.
+- Los mocks se mantienen separados de `lib/health.ts`. Organización, rol y plan son selectores de demostración en memoria; no constituyen sesiones, autorización ni aislamiento real.
+- La consulta de salud heredada está en `/app/settings`. Las pruebas originales mantienen validación HTTP, recuperación y rechazo de JSON inesperado; A2 añade navegación, formularios conceptuales, responsive y movimiento reducido.
+- El acuerdo original de A2 se excluye del reformateo automático para conservar el archivo entregado por el usuario.
+
 - Vitest/Supertest: `apps/api/tests/*.test.ts`. La aplicación se crea sin escuchar un puerto fijo; no se conectan bases o GitHub. Se verifican el contrato de salud, 404, ocultamiento de errores y rechazo de configuración inválida.
 - Playwright: `tests/e2e/*.spec.ts`. Comprueba HTTP real a través de Vite y el estado de React, fallo recuperable y rechazo de respuesta inesperada. Arranca y limpia los servidores de prueba. Reportes/trazas quedan ignorados.
 - `npm run check` es la puerta local/CI para formato, lint, tipos, pruebas de API y compilación. Ejecuta E2E aparte con `npm run test:e2e` tras instalar Chromium.

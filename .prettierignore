@@ -5,3 +5,6 @@ playwright-report
 test-results
 package-lock.json
 .local
+.taste-skill
+# Acuerdo original del usuario: conservar sin reformatear.
+docs/fase_a2/ReleaseVantra_A2_Planeacion_Actualizada_v1.1.md

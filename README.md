@@ -2,7 +2,9 @@
 
 Plataforma SaaS B2B multiempresa para gestionar versiones, aprobaciones y ejecuciones controladas de GitHub Actions. El objetivo final es que Astera Digital y FaroWare Systems operen desde una misma URL, con datos aislados, cinco roles y trazabilidad por organización.
 
-**Estado actual: Fase A1 — inicialización y arquitectura.** Esta entrega es una base local ejecutable. Incluye una pantalla introductoria, la API de salud, contratos compartidos, herramientas de calidad y CI. Las funciones de negocio y los controles de seguridad empresariales están planificados, todavía no implementados.
+**Estado actual: Fase A2 — diseño UX/UI y navegación.** Incluye landing oscura con los tres componentes React Bits suministrados, formularios conceptuales y un prototipo empresarial navegable con datos ficticios de Astera Digital y FaroWare Systems. La API de salud, los contratos y las herramientas de A1 se conservan. Autenticación, persistencia, permisos reales e integración GitHub siguen pendientes.
+
+La landing está en `/`; entra por **«Explorar demostración»** desde `/login` o visita `/app`. En la demostración puedes cambiar organización, rol y plan visual. Los formularios no guardan información ni crean cuentas. Las acciones empresariales abren vistas conceptuales.
 
 ## Requisitos
 
@@ -11,7 +13,7 @@ Plataforma SaaS B2B multiempresa para gestionar versiones, aprobaciones y ejecuc
 - Windows, macOS o Linux. Los comandos npm se ejecutan desde la raíz del repositorio.
 - Puertos locales 3000 (API), 5173 (web) y, opcionalmente, 4173 (vista previa).
 
-Docker, PostgreSQL, AWS y credenciales GitHub no son necesarios en A1.
+Docker, PostgreSQL, AWS y credenciales GitHub no son necesarios en A1 ni A2.
 
 ## Empezar desde cero
 
@@ -20,7 +22,7 @@ npm ci
 npm run dev
 ```
 
-Abre **http://127.0.0.1:5173**. La pantalla consulta **http://127.0.0.1:5173/api/health**, que Vite redirige al backend **http://127.0.0.1:3000/api/health**. Debe mostrar “API conectada”. La respuesta de salud es:
+Abre **http://127.0.0.1:5173** para ver la landing. En **http://127.0.0.1:5173/app/settings** se comprueba **http://127.0.0.1:5173/api/health**, que Vite redirige al backend **http://127.0.0.1:3000/api/health**. Debe mostrar “API conectada”. La respuesta de salud es:
 
 ```json
 { "status": "ok" }
@@ -56,16 +58,16 @@ Para comprobar los artefactos compilados, ejecuta `npm run build`, después `npm
 
 ## Stack
 
-| Área            | Preparado en A1                                          | Reservado para después                            |
-| --------------- | -------------------------------------------------------- | ------------------------------------------------- |
-| Monorepositorio | npm workspaces + TypeScript estricto                     | —                                                 |
-| Frontend        | React 19, Vite 8, Tailwind CSS 4                         | shadcn/ui y diseño definitivo en A2               |
-| Backend         | Node.js, Express 5, REST, Zod 4 para configuración       | Servicios de negocio y validación de sus entradas |
-| Contratos       | `@releasevantra/shared`                                  | Entidades y esquemas de negocio                   |
-| Calidad         | ESLint 10, Prettier 3, Vitest 5, Supertest 7, Playwright | Pruebas empresariales y seguridad                 |
-| Persistencia    | Ninguna                                                  | Prisma, PostgreSQL, DynamoDB, Outbox y jobs       |
-| Integraciones   | Ninguna                                                  | GitHub App + Octokit y webhooks                   |
-| Infraestructura | CI de verificación                                       | Docker Compose en A3; AWS en tarea B              |
+| Área            | Preparado en A1 y A2                                                | Reservado para después                            |
+| --------------- | ------------------------------------------------------------------- | ------------------------------------------------- |
+| Monorepositorio | npm workspaces + TypeScript estricto                                | —                                                 |
+| Frontend        | React 19, Vite 8, Tailwind CSS 4, Router, Radix, shadcn/ui y Lucide | Conexión empresarial con APIs en A10              |
+| Backend         | Node.js, Express 5, REST, Zod 4 para configuración                  | Servicios de negocio y validación de sus entradas |
+| Contratos       | `@releasevantra/shared`                                             | Entidades y esquemas de negocio                   |
+| Calidad         | ESLint 10, Prettier 3, Vitest 5, Supertest 7, Playwright            | Pruebas empresariales y seguridad                 |
+| Persistencia    | Ninguna                                                             | Prisma, PostgreSQL, DynamoDB, Outbox y jobs       |
+| Integraciones   | Ninguna                                                             | GitHub App + Octokit y webhooks                   |
+| Infraestructura | CI de verificación                                                  | Docker Compose en A3; AWS en tarea B              |
 
 TypeScript está fijado en **6.0.3** por compatibilidad con `typescript-eslint` 8.74.0; las versiones exactas están en los manifiestos y `package-lock.json`.
 
@@ -84,14 +86,19 @@ ReleaseVantra/
 │   │   └── tests/              # Pruebas HTTP/configuración
 │   └── web/
 │       └── src/
-│           ├── lib/            # Cliente HTTP de salud
-│           ├── app.tsx         # Pantalla introductoria
+│           ├── components/     # UI compartida y React Bits
+│           ├── layouts/        # Áreas pública y empresarial
+│           ├── mocks/          # Datos tipados de demostración
+│           ├── pages/          # Rutas públicas y módulos empresariales
+│           ├── lib/            # Cliente HTTP, navegación y utilidades
+│           ├── app.tsx         # Router público y empresarial
 │           ├── main.tsx        # Entrada React
-│           └── styles.css      # Tailwind y base mínima
+│           └── styles.css      # Tokens, responsive y Tailwind; base mínima
 ├── packages/shared/src/        # Contrato HealthResponse
 ├── tests/e2e/                  # Comunicación real web/API y errores
 ├── docs/                       # Documentos generales y carpetas por fase
 │   ├── fase_a1/                # Arquitectura inicial e informe A1
+│   ├── fase_a2/                # Acuerdo, implementación y evidencia A2
 │   ├── development.md          # Convenciones generales
 │   └── requirements.md         # Requisitos y alcance de todas las fases
 ├── scripts/                    # Notificación Windows solicitada
@@ -109,11 +116,14 @@ El backend es un monolito modular. La web presenta información y consulta la AP
 - [Convenciones y configuración](docs/development.md).
 - [Referencias, requisitos y alcance por fase](docs/requirements.md).
 - [Informe de implementación y verificaciones A1](docs/fase_a1/a1-report.md).
+- [Diseño, componentes y rutas A2](docs/fase_a2/implementation.md).
+- [Informe de implementación y verificaciones A2](docs/fase_a2/a2-report.md).
+- [Avisos de terceros](docs/third-party-notices.md).
 - [Registro de cambios](CHANGELOG.md).
 
 Los documentos de cada fase se guardan en `docs/fase_<letra><numero>/`, por ejemplo, `docs/fase_a1/` o `docs/fase_b1/`. Los documentos generales o independientes de una fase se guardan directamente en `docs/`. Esta convención se aplica también a la documentación futura.
 
-A2 podrá definir UX/UI, navegación y shadcn/ui sobre la base React/Tailwind y el alias `@/`. A3 incorporará el modelo de datos y contenedores. Autenticación/RBAC, negocio, GitHub, auditoría y la infraestructura AWS se implementarán en sus fases autorizadas. La aplicación PaaS será un proyecto independiente.
+A2 incorpora UX/UI, navegación, shadcn/ui, Radix y Lucide sobre la base React/Tailwind y el alias `@/`. A3 incorporará el modelo de datos y contenedores cuando se autorice. Autenticación/RBAC, negocio, GitHub, auditoría y la infraestructura AWS se implementarán en sus fases autorizadas. La aplicación PaaS será un proyecto independiente.
 
 El workflow de CI comprueba instalación, formato, lint, tipos, pruebas y compilación en Node 24 y 26. No despliega, no usa secretos y es independiente de los workflows futuros de clientes. Su ejecución remota requiere publicar el repositorio por una acción posterior del propietario.
 

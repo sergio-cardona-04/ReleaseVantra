@@ -17,6 +17,8 @@ El `/health` exigido por el profesor para la segunda aplicación pertenece al pr
 
 ## Requisitos funcionales y no funcionales
 
+Actualización A2: identidad visual, landing, navegación y pantallas representativas se implementaron como prototipo, con datos ficticios en el cliente. El registro, los roles y los planes solo tienen comportamiento visual; no se adelantaron sus servicios. Consulta [la implementación A2](fase_a2/implementation.md) y [su informe de validación](fase_a2/a2-report.md).
+
 Implementados en A1: web introductoria, consulta de salud de API, contrato compartido, configuración local, errores básicos, cierre ordenado, herramientas de calidad, CI y documentación reproducible.
 
 Planificados: identidad/membresías, aislamiento multiempresa, cinco roles, gestión de proyectos/versiones, solicitudes/aprobaciones, ejecución GitHub real, suscripciones simuladas, cuotas, incidentes, auditoría y Release Intelligence. Ninguna de estas capacidades está disponible todavía.
