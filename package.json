@@ -1,0 +1,48 @@
+{
+  "name": "releasevantra",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Base local del SaaS multiempresa ReleaseVantra — Fase A1",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": "^24.10.0 || ^26.0.0",
+    "npm": ">=11 <12"
+  },
+  "packageManager": "npm@11.19.1",
+  "scripts": {
+    "dev": "npm run build --workspace @releasevantra/shared && concurrently --kill-others --names shared,api,web \"npm run dev --workspace @releasevantra/shared\" \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev --workspace @releasevantra/api",
+    "dev:web": "npm run dev --workspace @releasevantra/web",
+    "build": "npm run build --workspace @releasevantra/shared && npm run build --workspace @releasevantra/api && npm run build --workspace @releasevantra/web",
+    "start:api": "npm run start --workspace @releasevantra/api",
+    "preview:web": "npm run preview --workspace @releasevantra/web",
+    "typecheck": "npm run build --workspace @releasevantra/shared && npm run typecheck --workspaces --if-present && tsc -p tsconfig.tools.json --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run build --workspace @releasevantra/shared && npm run test --workspace @releasevantra/api",
+    "test:e2e": "npm run build --workspace @releasevantra/shared && playwright test",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.65.1",
+    "@types/node": "24.19.2",
+    "concurrently": "10.0.7",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.8",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.74.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
