@@ -90,7 +90,10 @@ ReleaseVantra/
 │           └── styles.css      # Tailwind y base mínima
 ├── packages/shared/src/        # Contrato HealthResponse
 ├── tests/e2e/                  # Comunicación real web/API y errores
-├── docs/                       # Arquitectura, requisitos e informe A1
+├── docs/                       # Documentos generales y carpetas por fase
+│   ├── fase_a1/                # Arquitectura inicial e informe A1
+│   ├── development.md          # Convenciones generales
+│   └── requirements.md         # Requisitos y alcance de todas las fases
 ├── scripts/                    # Notificación Windows solicitada
 ├── .github/workflows/ci.yml    # Verificaciones, sin despliegues
 ├── package.json
@@ -102,11 +105,13 @@ El backend es un monolito modular. La web presenta información y consulta la AP
 
 ## Documentación y siguiente fase
 
-- [Arquitectura y decisiones](docs/architecture.md).
+- [Arquitectura y decisiones A1](docs/fase_a1/architecture.md).
 - [Convenciones y configuración](docs/development.md).
 - [Referencias, requisitos y alcance por fase](docs/requirements.md).
-- [Informe de implementación y verificaciones A1](docs/a1-report.md).
+- [Informe de implementación y verificaciones A1](docs/fase_a1/a1-report.md).
 - [Registro de cambios](CHANGELOG.md).
+
+Los documentos de cada fase se guardan en `docs/fase_<letra><numero>/`, por ejemplo, `docs/fase_a1/` o `docs/fase_b1/`. Los documentos generales o independientes de una fase se guardan directamente en `docs/`. Esta convención se aplica también a la documentación futura.
 
 A2 podrá definir UX/UI, navegación y shadcn/ui sobre la base React/Tailwind y el alias `@/`. A3 incorporará el modelo de datos y contenedores. Autenticación/RBAC, negocio, GitHub, auditoría y la infraestructura AWS se implementarán en sus fases autorizadas. La aplicación PaaS será un proyecto independiente.
 

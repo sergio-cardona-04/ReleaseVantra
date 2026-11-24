@@ -2,6 +2,7 @@
 
 ## Organización
 
+- Documentación por fase en `docs/fase_<letra><numero>/`, con letra minúscula (por ejemplo, `docs/fase_a1/` o `docs/fase_b1/`). Documentos generales o independientes de una fase directamente en `docs/`. Aplicar esta convención en tareas futuras aunque el prompt no la repita; al mover documentos, actualizar sus referencias.
 - Archivos y carpetas: `kebab-case`; componentes exportados en `PascalCase` (por ejemplo, función `App` en `app.tsx`). Funciones/variables en `camelCase`, tipos e interfaces en `PascalCase`.
 - Módulos por capacidad en `apps/api/src/modules`. Controladores traducen HTTP; servicios futuros contendrán reglas; repositorios futuros contendrán acceso a datos. Ninguna capa empresarial debe confiar en un organization_id enviado por el cliente.
 - Contratos comunes en shared, sin dependencias de framework, Prisma o infraestructura. No exportar secretos, modelos de persistencia completos o tipos internos indiscriminadamente.

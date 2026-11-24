@@ -46,10 +46,11 @@ ReleaseVantra/
 │   ├── package.json
 │   └── tsconfig.json
 ├── docs/
-│   ├── architecture.md
+│   ├── fase_a1/
+│   │   ├── architecture.md
+│   │   └── a1-report.md
 │   ├── development.md
-│   ├── requirements.md
-│   └── a1-report.md
+│   └── requirements.md
 ├── tests/e2e/intro.spec.ts
 ├── scripts/notify-completion.ps1
 ├── .github/workflows/ci.yml
